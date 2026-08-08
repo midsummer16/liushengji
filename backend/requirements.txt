@@ -1,0 +1,36 @@
+# Core web framework
+fastapi>=0.115
+uvicorn[standard]
+python-multipart
+aiofiles
+aiosqlite
+httpx
+
+# Audio / DSP
+numpy<2.0
+scipy==1.13.1
+soundfile
+librosa==0.10.2
+torch>=2.1.0
+torchaudio>=2.1.0
+
+# Text processing
+cn2an
+pypinyin
+jieba
+g2p_en
+opencc
+sentencepiece
+onnxruntime-gpu
+transformers==4.50.3
+
+# GPT-SoVITS inference (vendored repo in backend/GPT-SoVITS/)
+ffmpeg-python
+x_transformers
+peft
+pytorch-lightning
+matplotlib
+modelscope
+
+# NLTK English phonemization corpora (installed to ~/nltk_data):
+#   cmudict, averaged_perceptron_tagger_eng, punkt_tab, wordnet, words

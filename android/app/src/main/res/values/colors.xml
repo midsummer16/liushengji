@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 启动器图标底色(暖珊瑚) -->
+    <color name="ic_launcher_background">#FF8A65</color>
+
+    <!-- 暖色主题色板:与 Theme.kt 中 Compose Color 保持一致,便于 XML 资源引用 -->
+    <color name="seed">#FF8A65</color>
+    <color name="coral">#FF8A65</color>
+    <color name="amber">#F2A65A</color>
+    <color name="warm_bg_light">#FDF6F0</color>
+    <color name="warm_bg_dark">#1C1814</color>
+</resources>

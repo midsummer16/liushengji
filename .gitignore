@@ -1,0 +1,43 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+*.egg-info/
+dist/
+build/
+
+# GPT-SoVITS large model weights (do NOT track)
+backend/GPT-SoVITS/GPT_SoVITS/pretrained_models/
+backend/GPT-SoVITS/pretrained_models/
+backend/GPT-SoVITS/tools/uvr5/uvr5_weights/*.pth
+backend/GPT-SoVITS/tools/uvr5/uvr5_weights/*.ckpt
+
+# User audio data
+backend/data/audio_storage/
+
+# Android build outputs
+android/app/build/
+android/build/
+android/.gradle/
+*.apk
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+backend/debug_logs/
+backend/GPT-SoVITS/gptsovits_api.log
+
+# Temp
+/tmp/
+*.tmp

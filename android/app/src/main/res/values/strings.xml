@@ -1,0 +1,53 @@
+<resources>
+    <string name="app_name">留生机</string>
+
+    <!-- HomeScreen: 顶部标题与状态 -->
+    <string name="app_title">声纹工坊</string>
+    <string name="current_voice">当前音色：%1$s</string>
+    <string name="no_voice_selected">未选择音色</string>
+    <string name="add_voice">新增声纹</string>
+
+    <!-- HomeScreen: 空状态提示 -->
+    <string name="empty_state_title">还没有声纹卡片</string>
+    <string name="empty_state_hint">还没有声纹卡片,点这里给家人录一段声音吧</string>
+    <string name="empty_state_action">去录音</string>
+
+    <!-- ServerConfigDialog: 服务器配置 -->
+    <string name="server_not_connected">服务器未连接</string>
+    <string name="test_and_connect">测试并连接</string>
+    <string name="testing">测试中…</string>
+    <string name="server_dialog_title">设置后端服务器地址</string>
+    <string name="server_dialog_hint">输入语音服务器地址,例如 http://192.168.1.100:8000</string>
+    <string name="server_address_label">服务器地址</string>
+    <string name="server_address_placeholder">http://192.168.1.100:8000/</string>
+    <string name="server_empty_error">请输入服务器地址</string>
+    <string name="server_invalid_error">地址需以 http:// 或 https:// 开头</string>
+    <string name="server_unreachable">连不上服务器,请检查地址或网络</string>
+    <string name="cancel">取消</string>
+
+    <!-- HomeScreen: 删除声纹确认 -->
+    <string name="delete_voice_title">删除声纹</string>
+    <string name="delete_voice_confirm">确定要删除「%1$s」吗?删除后需要重新录制。</string>
+    <string name="delete">删除</string>
+    <string name="retry">重试</string>
+    <string name="server_settings">服务器设置</string>
+    <string name="selected_label">已选中</string>
+    <string name="delete_icon_desc">删除</string>
+
+    <!-- RecordScreen: 录音权限 -->
+    <string name="mic_permission_needed">录音需要麦克风权限</string>
+    <string name="mic_permission_hint">请在系统设置中允许本应用使用麦克风,然后返回重试。</string>
+    <string name="go_to_settings">去设置</string>
+
+    <!-- TtsChat: 错误/状态 -->
+    <string name="select_voice_first">请先在首页选择一个声纹</string>
+    <string name="tts_failed">合成失败</string>
+    <string name="network_error">网络异常</string>
+
+    <!-- P3: 搜索 + 长按试听 -->
+    <string name="search_voice_hint">搜索声纹</string>
+    <string name="clear_search">清除搜索</string>
+    <string name="search_no_result">没有匹配的声纹</string>
+    <string name="preview_started">正在试听「%1$s」的声音…</string>
+    <string name="preview_failed">试听失败</string>
+</resources>
