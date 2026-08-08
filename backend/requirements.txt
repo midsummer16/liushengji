@@ -23,6 +23,7 @@ opencc
 sentencepiece
 onnxruntime-gpu
 transformers==4.50.3
+fast-langdetect
 
 # GPT-SoVITS inference (vendored repo in backend/GPT-SoVITS/)
 ffmpeg-python
@@ -34,3 +35,5 @@ modelscope
 
 # NLTK English phonemization corpora (installed to ~/nltk_data):
 #   cmudict, averaged_perceptron_tagger_eng, punkt_tab, wordnet, words
+split-lang
+torchcodec

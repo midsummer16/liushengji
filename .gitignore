@@ -16,6 +16,7 @@ backend/GPT-SoVITS/tools/uvr5/uvr5_weights/*.ckpt
 
 # User audio data
 backend/data/audio_storage/
+backend/data/voices.db
 
 # Android build outputs
 android/app/build/

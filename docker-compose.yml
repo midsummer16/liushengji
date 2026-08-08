@@ -1,0 +1,27 @@
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: liushengji-backend
+    ports:
+      - "8000:8000"
+    volumes:
+      # Model weights (read-only, easy to swap)
+      - ./backend/GPT-SoVITS/GPT_SoVITS/pretrained_models:/app/GPT-SoVITS/GPT_SoVITS/pretrained_models:ro
+      # UVR5 HP2 weights (read-only)
+      - ./backend/GPT-SoVITS/tools/uvr5/uvr5_weights:/app/GPT-SoVITS/tools/uvr5/uvr5_weights:ro
+      # Data directory (read-write: SQLite DB + user audio)
+      - ./backend/data:/data
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=0
+      - DATA_DIR=/data
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    shm_size: "8g"
+    restart: unless-stopped
