@@ -42,3 +42,11 @@ backend/GPT-SoVITS/gptsovits_api.log
 # Temp
 /tmp/
 *.tmp
+
+# opencode local config (tool-specific, not project files)
+.opencode/
+opencode.json
+AGENTS.md
+
+# Android machine-specific
+android/local.properties
