@@ -10,7 +10,12 @@
 ## 目录结构
 ```
 backend/    FastAPI 后端（SQLite + UVR5 + GPT-SoVITS + 显存调度）
+  Dockerfile          # 后端容器镜像（Python 3.12 + PyTorch CUDA）
+  entrypoint.sh       # 容器入口：设置 PYTHONPATH 后启动 uvicorn
+  GPT-SoVITS/         # 第三方 vendored 仓库（勿改动）
+  data/               # voices.db、audio_storage/（卷挂载，不入镜像）
 android/    Android 客户端（Kotlin + Jetpack Compose）
+docker-compose.yml    # GPU 透传 + 权重/数据卷挂载的一键部署
 ```
 
 ## 后端启动
@@ -44,6 +49,13 @@ GPT-SoVITS/GPT_SoVITS/pretrained_models/
 下载源：`https://modelscope.cn/models/AI-ModelScope/GPT-SoVITS`（权重）与
 `https://modelscope.cn/models/hfl/chinese-roberta-wwm-ext-large`（BERT）。
 
+### 2.5 UVR5 人声分离权重
+放 `backend/GPT-SoVITS/tools/uvr5/uvr5_weights/`：
+```
+HP2-人声vocals+非人声instrumentals.pth    # 注册声纹时的参考音频降噪
+```
+有该权重时参考音频走真实 HP2 人声分离；缺失或推理失败则回退内置 DSP mock（高通 + 齿音感知噪声门 + VAD 去尾），系统仍可跑通。
+
 > 若权重缺失，`gpt_sovits.py` 自动回退 Mock 音调（非真实语音），保证 API 可跑通。
 
 ### 3. 运行
@@ -56,8 +68,27 @@ uvicorn app.main:app --host 0.0.0.0 --port 8000
   首次加载模型约需 30-60 秒；可用环境变量 `GPT_SOVITS_STREAMING_MODE`（1=高质量流式/3=低延迟）调整。
 
 ### 4. 显存调度 (8GB RTX 4060)
-GPT-SoVITS v2 推理常驻显存约 **3-4GB**（api_v2 子进程独占）。UVR5 目前为内置 DSP mock（不占显存）；
-如需接入真实 UVR5，按 `core/vram_manager.py` 的设计在进程间做懒加载切换。
+GPT-SoVITS v2 推理常驻显存约 **3-4GB**（api_v2 子进程独占）。UVR5 通过 `vram_manager`
+懒加载：收到声纹注册请求时先将 GPT-SoVITS 卸载到 CPU、清空 CUDA cache，再加载 UVR5 HP2
+处理完立即卸载并恢复 GPT-SoVITS，两者经 asyncio 锁互斥，不会同时驻留两个大模型
+（`core/vram_manager.py`）。
+
+### 5. Docker 部署（可选，替代手动启动）
+宿主机装好 NVIDIA 驱动 + Docker + nvidia-container-toolkit 后，在仓库根目录：
+```bash
+docker compose up -d --build
+```
+- GPU 透传（`deploy.resources.reservations.devices`）+ `shm_size: 8g`（PyTorch 多进程共享内存）
+- 权重目录只读挂载，直接放到宿主机
+  `backend/GPT-SoVITS/GPT_SoVITS/pretrained_models/` 与
+  `backend/GPT-SoVITS/tools/uvr5/uvr5_weights/` 即可，无需重建镜像
+- 数据目录读写挂载到 `backend/data/`（SQLite + 用户音频持久化）
+- 容器内通过 `DATA_DIR=/data` 环境变量定位数据（`core/config.py`）
+- `entrypoint.sh` 动态设置 `PYTHONPATH`（`/app/GPT-SoVITS` 与内层
+  `/app/GPT-SoVITS/GPT_SoVITS`），解决 GPT-SoVITS 导入冲突
+- 日志与排障：`docker compose logs -f backend`
+
+> 本机已有 Python 环境时手动启动亦可（见上文第 1-3 节），Docker 适合换机/部署。
 
 ## API 接口
 | 方法 | 路径 | 说明 |
